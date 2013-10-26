@@ -14,5 +14,6 @@ db.open (err, db) ->
   if not err
     console.log 'Conencted to beatcoin database'
     db.collection 'jukeboxes', {strict: true}, (err, collection) ->
-      if err then console.log 'jukeboxes collection does not exist, exiting now'
+      if err
+        console.log 'jukeboxes collection does not exist, exiting now'
         process.exit
