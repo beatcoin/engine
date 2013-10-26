@@ -18,28 +18,6 @@ db.open (err, db) ->
         console.log 'jukeboxes collection does not exist, exiting now'
         process.exit()
 
-module.exports.listSongs = (req, res, next) ->
-  db.collection 'songs', (err, collection) ->
-    collection.find().toArray (err, items) ->
-      res.send
-        status: 'success'
-        items: items
-
-module.exports.notifeye = (req, res, next) ->
-  if not req.params.address
-    return res.send 400, 'Invalid address'
-  db.collection 'songs', (err, collection) ->
-    collection.findOne(
-      btc_pay_address: req.params.address
-      , (err, item) ->
-        # Now we've got the item, push it into the queue
-        item.queue = req.params
-        delete item._id
-        db.collection 'queue', (err, collection) ->
-          collection.insert item
-          res.send 200
-    )
-
 module.exports.play = (req, res, next) ->
   db.collection 'queue', (err, collection) ->
     collection.findOne
@@ -63,4 +41,25 @@ module.exports.play = (req, res, next) ->
             res.send
               status: 'success'
               items: [item]
-    
+
+module.exports.listSongs = (req, res, next) ->
+  db.collection 'songs', (err, collection) ->
+    collection.find().toArray (err, items) ->
+      res.send
+        status: 'success'
+        items: items
+
+module.exports.notifeye = (req, res, next) ->
+  if not req.params.address
+    return res.send 400, 'Invalid address'
+  db.collection 'songs', (err, collection) ->
+    collection.findOne(
+      btc_pay_address: req.params.address
+      , (err, item) ->
+        # Now we've got the item, push it into the queue
+        item.queue = req.params
+        delete item._id
+        db.collection 'queue', (err, collection) ->
+          collection.insert item
+          res.send 200
+    )
