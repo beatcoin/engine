@@ -7,7 +7,14 @@ server.use restify.bodyParser()
 
 endpoints = require './endpoints.coffee'
 
-server.get '/jukebox/:id/play', endpoints.play
+server.get '/jukebox/:id/play', (req, res, next) ->
+  res.send
+    status: 'success'
+    items: [
+      file_identifier: '1683152235880559633'
+      meta:
+        title: 'foo'
+    ]
 
 server.get '/jukebox/:id/songs', endpoints.listSongs
 
@@ -17,6 +24,8 @@ server.post '/jukebox/:id/songs', (req, res, next) ->
     status: 'success'
 
 server.post '/notifeye', endpoints.notifeye
+
+server.get '/jukebox/:id/playSong', endpoints.play
 
 server.listen 8080, ->
   console.log "%s listening at %s", server.name, server.url
