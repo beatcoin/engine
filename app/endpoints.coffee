@@ -43,9 +43,10 @@ module.exports.notifeye = (req, res, next) ->
 module.exports.play = (req, res, next) ->
   db.collection 'queue', (err, collection) ->
     collection.find jukebox_id: new BSON.ObjectID(req.params.id), (err, item) ->
-      console.log 'find'
-      console.log item.toArray()
-      collection.remove _id: item._id, (err, removed) ->
-        console.log 'just removed'
-        console.log removed
-        res.send 200
+      item.toArray (err, item) ->
+        console.log 'find'
+        console.log item
+        collection.remove _id: item._id, (err, removed) ->
+          console.log 'just removed'
+          console.log removed
+          res.send 200
