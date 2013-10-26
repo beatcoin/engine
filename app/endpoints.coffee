@@ -26,6 +26,8 @@ module.exports.listSongs = (req, res, next) ->
         items: items
 
 module.exports.notifeye = (req, res, next) ->
+  if not req.params.address
+    return res.send 400, 'Invalid address'
   db.collection 'songs', (err, collection) ->
     collection.findOne(
       btc_pay_address: req.params.address
