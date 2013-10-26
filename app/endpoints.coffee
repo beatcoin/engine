@@ -4,7 +4,9 @@ mongoServerInterface = mongo.Server
 mongoDb = mongo.Db
 BSON = mongo.BSONPure
 
-mongoServer = new mongoServerInterface 'localhost', 27017, auto_reconnect: true
+mongoServer = new(mongoServerInterface 'localhost', 27017,
+  auto_reconnect: true
+)
 
 db = new mongoDb 'beatcoin_test', mongoServer
 
