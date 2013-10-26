@@ -54,9 +54,25 @@ module.exports.listSongs = (req, res, next) ->
 
 module.exports.putSongs = (req, res, next) ->
   db.collection 'jukeboxes', (err, collection) ->
-    collection.findOne _id: new BSON.ObjectID(req.params.id), (err, item) ->
-      console.log 'just got the jukebox item'
-      console.log item
+    collection.findOne _id: new BSON.ObjectID(req.params.id), (err, jukebox) ->
+      db.collection 'songs', (err, collection) ->
+        reqOpts =
+            uri: 'http://eye.beatcoin.org/wallets/' + jukebox.btc_wallet_id + '/addresses'
+            method: 'POST'
+            headers:
+              'content-type': 'application/x-www-form-urlencoded'
+        for item in req.params.items
+          request.post reqOpts, (err, client, response) ->
+            resp = JSON.parse client.body
+            item.btc_pay_address = resp.addresses[0]
+            collection.insert item, (err, result) ->
+              if err
+                console.log "Collection insert failed with message %s", JSON.stringify(result)
+              else
+                console.log "New song created on jukebox %s with result %s", req.params.id, JSON.stringify(result)
+        res.send
+          status: 'success'
+
 module.exports.notifeye = (req, res, next) ->
   if not req.params.address
     return res.send 400, 'Invalid address'
