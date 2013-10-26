@@ -50,17 +50,17 @@ module.exports.play = (req, res, next) ->
         'query.time': 1
     ,
       (err, item) ->
-      if not item
-        res.send
-          status: 'success'
-          items: []
-      else
-        console.log 'find'
-        console.log item
-        collection.remove _id: item._id, (err, removed) ->
-          console.log 'just removed'
-          console.log removed
+        if not item
           res.send
             status: 'success'
-            items: [item]
+            items: []
+        else
+          console.log 'find'
+          console.log item
+          collection.remove _id: item._id, (err, removed) ->
+            console.log 'just removed'
+            console.log removed
+            res.send
+              status: 'success'
+              items: [item]
     
