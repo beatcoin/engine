@@ -18,6 +18,9 @@ db.open (err, db) ->
         console.log 'jukeboxes collection does not exist, exiting now'
         process.exit()
 
+# We need to make HTTP requests
+request = require 'request'
+
 module.exports.play = (req, res, next) ->
   db.collection 'queue', (err, collection) ->
     collection.findOne
@@ -50,11 +53,10 @@ module.exports.listSongs = (req, res, next) ->
         items: items
 
 module.exports.putSongs = (req, res, next) ->
-  for item in req.params.items
-    console.log item
-  res.send
-    status: 'success'
-
+  db.collection 'jukeboxes', (err, collection) ->
+    collection.findOne _id: new BSON.ObjectID(req.params.id), (err, item) ->
+      console.log 'just got the jukebox item'
+      console.log item
 module.exports.notifeye = (req, res, next) ->
   if not req.params.address
     return res.send 400, 'Invalid address'
