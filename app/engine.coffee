@@ -28,7 +28,7 @@ server.get '/jukebox/:id/songs', (req, res, next) ->
     ]
 
 server.post '/jukebox/:id/songs', (req, res, next) ->
-  console.log "Received post data %s", req.params
+  console.log "Received post data %s", JSON.stringify(req.params)
   res.send
     status: 'success'
 
