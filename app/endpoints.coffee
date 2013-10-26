@@ -4,7 +4,7 @@ mongoServerInterface = mongo.Server
 mongoDb = mongo.Db
 BSON = mongo.BSONPure
 
-mongoServer = new(mongoServerInterface, 'localhost', 27017,
+mongoServer = new mongoServerInterface( 'localhost', 27017,
   auto_reconnect: true
 )
 
