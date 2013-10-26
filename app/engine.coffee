@@ -16,20 +16,7 @@ server.get '/jukebox/:id/play', (req, res, next) ->
         title: 'foo'
     ]
 
-server.get '/jukebox/:id/listSongs', endpoints.listSongs
-
-server.get '/jukebox/:id/songs', (req, res, next) ->
-  res.send
-    status: 'success'
-    items: [
-      file_identifier: '1683152235880559633'
-      meta:
-        title: 'foo'
-    ,
-      file_identifier: '1683152235880559634'
-      meta:
-        title: 'foo2'
-    ]
+server.get '/jukebox/:id/songs', endpoints.listSongs
 
 server.post '/jukebox/:id/songs', (req, res, next) ->
   console.log "Received post data %s", JSON.stringify(req.params)
