@@ -66,11 +66,12 @@ module.exports.putSongs = (req, res, next) ->
           request.post reqOpts, (err, client, response) ->
             resp = JSON.parse client.body
             item.btc_pay_address = resp.addresses[0]
-            collection.insert item, (err, result) ->
-              if err
-                console.log "Collection insert failed with message %s", JSON.stringify(result)
-              else
-                console.log "New song created on jukebox %s with result %s", req.params.id, JSON.stringify(result)
+            console.log item
+            #collection.insert item, (err, result) ->
+            #  if err
+            #    console.log "Collection insert failed with message %s", JSON.stringify(result)
+            #  else
+            #    console.log "New song created on jukebox %s with result %s", req.params.id, JSON.stringify(result)
         res.send
           status: 'success'
 
