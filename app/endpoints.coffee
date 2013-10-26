@@ -42,7 +42,7 @@ module.exports.notifeye = (req, res, next) ->
 
 module.exports.play = (req, res, next) ->
   db.collection 'queue', (err, collection) ->
-    collection.find jukebox: new BSON.ObjectID(req.params.id), (err, item) ->
+    collection.findOne jukebox: new BSON.ObjectID(req.params.id), (err, item) ->
       item.toArray (err, item) ->
         console.log 'find'
         console.log item
