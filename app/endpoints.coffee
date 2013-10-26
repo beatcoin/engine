@@ -22,5 +22,5 @@ module.exports.listSongs = (req, res, next) ->
   db.collection 'songs_' + req.params.id, (err, collection) ->
     collection.find().toArray (err, items) ->
       res.send
-        status: success
+        status: 'success'
         items: items
