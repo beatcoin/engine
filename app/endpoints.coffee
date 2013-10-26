@@ -45,7 +45,7 @@ module.exports.play = (req, res, next) ->
     collection.findOne jukebox: new BSON.ObjectID(req.params.id), (err, item) ->
       console.log 'find'
       console.log item
-      collection.remove _id: new BSON.ObjectID(item._id), (err, removed) ->
+      collection.remove _id: item._id, (err, removed) ->
         console.log 'just removed'
         console.log removed
         res.send 200
