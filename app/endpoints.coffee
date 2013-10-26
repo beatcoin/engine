@@ -45,7 +45,8 @@ module.exports.play = (req, res, next) ->
     collection.find jukebox_id: new BSON.ObjectID(req.params.id), (err, item) ->
       console.log 'find'
       console.log item
-      collection.findAndModify(jukebox_id: new BSON.ObjectID(req.params.id), {'queue.amount': -1, 'queue.times': 1}, {}, {remove: true}, (err, item)->
-        console.log 'findAndModify'
-        console.log item
+      collection.remove jukebox_id: new BSON.ObjectID(req.params.id), (err, removed) ->
+        console.log 'just removed'
+        console.log removed
+        res.send 200
       )
