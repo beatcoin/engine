@@ -5,6 +5,8 @@ server = restify.createServer()
 # Enable parsing of requests
 server.use restify.bodyParser()
 
+endpoints = require './endpoints.coffee'
+
 server.get '/jukebox/:id/play', (req, res, next) ->
   res.send
     status: 'success'
