@@ -45,9 +45,7 @@ module.exports.play = (req, res, next) ->
     collection.findOne
       jukebox: new BSON.ObjectID(req.params.id)
     ,
-      sort:
-        'query.amount': 1
-        'query.time': 1
+      sort: [['query.amount': 'desc'], ['query.time': 'asc']]
     ,
       (err, item) ->
         if not item
