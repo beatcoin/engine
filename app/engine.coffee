@@ -27,5 +27,9 @@ server.get '/jukebox/:id/songs', (req, res, next) ->
         title: 'foo2'
     ]
 
+server.post '/jukebox/:id/songs', (req, res, next) ->
+  res.send
+    status: 'success'
+
 server.listen 8080, ->
   console.log "%s listening at %s", server.name, server.url
