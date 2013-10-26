@@ -12,8 +12,8 @@ server.get '/jukebox/:id/play', (req, res, next) ->
       file_identifier: '1683152235880559633'
       meta:
         title: 'foo'
-    id: req.params.id
     ]
+    id: req.params.id
 
 server.listen 8080, ->
   console.log "%s listening at %s", server.name, server.url
