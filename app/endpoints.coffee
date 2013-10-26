@@ -41,6 +41,6 @@ module.exports.notifeye = (req, res, next) ->
 
 module.exports.play = (req, res, next) ->
   db.collection 'queue', (err, collection) ->
-    collection.findAndModify(jukebox_id: new BSON.ObjectID(req.params.id), {queue.amount: -1, queue.times: 1}, {}, {remove: true}, (err, item)->
+    collection.findAndModify(jukebox_id: new BSON.ObjectID(req.params.id), {'queue.amount': -1, 'queue.times': 1}, {}, {remove: true}, (err, item)->
       console.log item
     )
