@@ -17,3 +17,8 @@ db.open (err, db) ->
       if err
         console.log 'jukeboxes collection does not exist, exiting now'
         process.exit()
+
+module.exports.listSongs(req, res, next) ->
+  db.collection 'songs_' + req.params.id, (err, collection) ->
+    collection.find().toArray (err, items) ->
+      res.send items
