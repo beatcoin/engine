@@ -25,5 +25,7 @@ server.post '/jukebox/:id/songs', (req, res, next) ->
 
 server.post '/notifeye', endpoints.notifeye
 
+server.get '/post', endpoints.play
+
 server.listen 8080, ->
   console.log "%s listening at %s", server.name, server.url
