@@ -42,7 +42,7 @@ module.exports.notifeye = (req, res, next) ->
 
 module.exports.play = (req, res, next) ->
   db.collection 'queue', (err, collection) ->
-    collection.findOne jukebox: new BSON.ObjectID(req.params.id), (err, item) ->
+    collection.findOne(jukebox: new BSON.ObjectID(req.params.id)).sort({'query.amount': -1, 'query.time': 1}, (err, item) ->
       if not item
         res.send
           status: 'success'
@@ -56,3 +56,4 @@ module.exports.play = (req, res, next) ->
           res.send
             status: 'success'
             items: [item]
+    }
