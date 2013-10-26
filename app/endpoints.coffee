@@ -50,12 +50,10 @@ module.exports.listSongs = (req, res, next) ->
         items: items
 
 module.exports.putSongs = (req, res, next) ->
-  db.collection 'songs', (err, collection) ->
-    collection.insert req.params.items, (err, result) ->
-      console.log 'insert'
-      console.log result
-      res.send
-        status: 'success'
+  for item in req.params.items
+    console.log item
+  res.send
+    status: 'success'
 
 module.exports.notifeye = (req, res, next) ->
   if not req.params.address
