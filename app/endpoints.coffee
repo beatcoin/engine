@@ -24,7 +24,7 @@ request = require 'request'
 module.exports.play = (req, res, next) ->
   db.collection 'queue', (err, collection) ->
     collection.findOne
-      jukebox: new BSON.ObjectID(req.params.id)
+      jukebox_id: new BSON.ObjectID(req.params.id)
     ,
       sort:
         'query.amount': -1
@@ -62,6 +62,7 @@ module.exports.putSongs = (req, res, next) ->
             headers:
               'content-type': 'application/x-www-form-urlencoded'
         for item in req.params.items
+          item.jukebox_id = jukebox._id
           request.post reqOpts, (err, client, response) ->
             resp = JSON.parse client.body
             item.btc_pay_address = resp.addresses[0]
