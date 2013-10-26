@@ -11,10 +11,7 @@ server.get '/jukebox/:id/play', endpoints.play
 
 server.get '/jukebox/:id/songs', endpoints.listSongs
 
-server.post '/jukebox/:id/songs', (req, res, next) ->
-  console.log "Received post data %s", JSON.stringify(req.params)
-  res.send
-    status: 'success'
+server.post '/jukebox/:id/songs', endpoints.putSongs
 
 server.post '/notifeye', endpoints.notifeye
 
