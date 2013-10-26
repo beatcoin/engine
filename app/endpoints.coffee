@@ -57,10 +57,10 @@ module.exports.putSongs = (req, res, next) ->
     collection.findOne _id: new BSON.ObjectID(req.params.id), (err, jukebox) ->
       db.collection 'songs', (err, collection) ->
         reqOpts =
-            uri: 'http://eye.beatcoin.org/wallets/' + jukebox.btc_wallet_id + '/addresses'
-            method: 'POST'
-            headers:
-              'content-type': 'application/x-www-form-urlencoded'
+          uri: 'http://eye.beatcoin.org/wallets/' + jukebox.btc_wallet_id + '/addresses'
+          method: 'POST'
+          headers:
+            'content-type': 'application/x-www-form-urlencoded'
         for item in req.params.items
           item.jukebox_id = jukebox._id
           request.post reqOpts, (err, client, response) ->
