@@ -16,4 +16,4 @@ db.open (err, db) ->
     db.collection 'jukeboxes', {strict: true}, (err, collection) ->
       if err
         console.log 'jukeboxes collection does not exist, exiting now'
-        process.exit
+        process.exit()
