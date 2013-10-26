@@ -42,6 +42,13 @@ module.exports.play = (req, res, next) ->
               status: 'success'
               items: [item]
 
+module.exports.listSongs = (req, res, next) ->
+  db.collection 'songs', (err, collection) ->
+    collection.find().toArray (err, items) ->
+      res.send
+        status: 'success'
+        items: items
+
 module.exports.putSongs = (req, res, next) ->
   db.collection 'songs', (err, collection) ->
     collection.insert req.params.items, (err, result) ->
@@ -49,13 +56,6 @@ module.exports.putSongs = (req, res, next) ->
       console.log result
       res.send
         status: 'success'
-
-module.exports.listSongs = (req, res, next) ->
-  db.collection 'songs', (err, collection) ->
-    collection.find().toArray (err, items) ->
-      res.send
-        status: 'success'
-        items: items
 
 module.exports.notifeye = (req, res, next) ->
   if not req.params.address
