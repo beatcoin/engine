@@ -34,6 +34,7 @@ module.exports.notifeye = (req, res, next) ->
       , (err, item) ->
         # Now we've got the item, push it into the queue
         item.queue = req.params
+        unset item._id
         db.collection 'queue', (err, collection) ->
           collection.insert item
           res.send 200
