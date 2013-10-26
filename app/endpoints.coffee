@@ -19,8 +19,14 @@ db.open (err, db) ->
         process.exit()
 
 module.exports.listSongs = (req, res, next) ->
-  db.collection 'songs_' + req.params.id, (err, collection) ->
+  db.collection 'songs', (err, collection) ->
     collection.find().toArray (err, items) ->
       res.send
         status: 'success'
         items: items
+
+module.exports.notifeye = (req, res, next) ->
+  db.collection 'songs', (err, collection) ->
+    collection.findOne(btc_pay_address: req.params.address).toArray (err, item) ->
+      console.log item
+      res.send 200
