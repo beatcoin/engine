@@ -32,6 +32,9 @@ module.exports.notifeye = (req, res, next) ->
     collection.findOne(
       btc_pay_address: req.params.address
       , (err, item) ->
-        console.log item
-        res.send 200
+        # Now we've got the item, push it into the queue
+        item.queue = req.params
+        db.collection 'queue', (err, collection) ->
+          collection.insert item
+          res.send 200
     )
