@@ -13,6 +13,6 @@ db = new mongoDb 'beatcoin_test', mongoServer
 db.open (err, db) ->
   if not err
     console.log 'Conencted to beatcoin database'
-    db.collection 'jukeboxes', strict: true, (err, collection) ->
+    db.collection 'jukeboxes', {strict: true}, (err, collection) ->
       if err then console.log 'jukeboxes collection does not exist, exiting now'
         process.exit
