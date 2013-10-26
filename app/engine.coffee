@@ -16,6 +16,8 @@ server.get '/jukebox/:id/play', (req, res, next) ->
         title: 'foo'
     ]
 
+server.get '/jukebox/:id/listSongs', endpoints.listSongs
+
 server.get '/jukebox/:id/songs', (req, res, next) ->
   res.send
     status: 'success'
