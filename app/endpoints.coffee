@@ -46,7 +46,7 @@ module.exports.play = (req, res, next) ->
       jukebox: new BSON.ObjectID(req.params.id)
     ,
       sort:
-        'query.amount': -1
+        'query.amount': 1
         'query.time': 1
     ,
       (err, item) ->
