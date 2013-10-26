@@ -49,4 +49,3 @@ module.exports.play = (req, res, next) ->
         console.log 'just removed'
         console.log removed
         res.send 200
-      )
