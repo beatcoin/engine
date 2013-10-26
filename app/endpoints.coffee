@@ -47,9 +47,10 @@ module.exports.play = (req, res, next) ->
         res.send
           status: 'success'
           items: []
-      console.log 'find'
-      console.log item
-      collection.remove _id: item._id, (err, removed) ->
-        console.log 'just removed'
-        console.log removed
-        res.send 200
+      else
+        console.log 'find'
+        console.log item
+        collection.remove _id: item._id, (err, removed) ->
+          console.log 'just removed'
+          console.log removed
+          res.send 200
