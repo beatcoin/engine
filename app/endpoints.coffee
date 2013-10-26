@@ -50,10 +50,11 @@ module.exports.listSongs = (req, res, next) ->
         items: items
 
 module.exports.putSongs = (req, res, next) ->
-  for item in req.params.items
-    console.log item
-  res.send
-    status: 'success'
+  console.log JSON.stringify(req.params)
+  #for item in req.params.items
+  #  console.log item
+  #re  s.send
+  #  status: 'success'
 
 module.exports.notifeye = (req, res, next) ->
   if not req.params.address
