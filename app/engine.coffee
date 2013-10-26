@@ -23,5 +23,9 @@ server.post '/jukebox/:id/songs', (req, res, next) ->
   res.send
     status: 'success'
 
+server.post '/notifeye', (req, res, next) ->
+  console.log "Received /notifeye call with data %s", JSON.stringify(req.params)
+  res.send 200
+
 server.listen 8080, ->
   console.log "%s listening at %s", server.name, server.url
