@@ -47,6 +47,9 @@ module.exports.play = (req, res, next) ->
               items: [item]
 
 module.exports.listSongs = (req, res, next) ->
+  if not req.params.id
+    res.send 404, 'Does not exist'
+    return next()
   db.collection 'songs', (err, collection) ->
     collection.find({}, limit: 20).toArray (err, items) ->
       res.send
