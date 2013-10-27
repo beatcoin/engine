@@ -52,11 +52,11 @@ module.exports.listSongs = (req, res, next) ->
         status: 'success'
         items: items
 
-insertItem = (item, reqOpts) ->
+insertSong = (item, reqOpts, collection) ->
   request.post reqOpts, (err, client, response) ->
     resp = JSON.parse client.body
     item.btc_pay_address = resp.addresses[0]
-    console.log item
+    collection.insert item
 
 module.exports.putSongs = (req, res, next) ->
   db.collection 'jukeboxes', (err, collection) ->
@@ -66,10 +66,10 @@ module.exports.putSongs = (req, res, next) ->
           uri: 'http://eye.beatcoin.org/wallets/' + jukebox.btc_wallet_id + '/addresses'
           method: 'POST'
           headers:
-            'content-type': 'application/x-www-form-urlencoded'
+            'content-type': 'application/json'
         for item in req.params.items
           item.jukebox_id = jukebox._id
-          insertItem item, reqOpts
+          inserSong item, reqOpts
         res.send
           status: 'success'
 
