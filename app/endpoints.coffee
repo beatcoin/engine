@@ -73,7 +73,7 @@ module.exports.putSongs = (req, res, next) ->
             'content-type': 'application/json'
         for item in req.params.items
           item.jukebox_id = jukebox._id
-          inserSong item, reqOpts
+          insertSong item, reqOpts
         res.send
           status: 'success'
 
