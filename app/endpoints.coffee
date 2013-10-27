@@ -93,6 +93,7 @@ module.exports.notifeye = (req, res, next) ->
       , (err, item) ->
         if not item
           res.send 404, 'Does not exist'
+          return next()
         # Now we've got the item, push it into the queue
         item.queue = req.params
         delete item._id
