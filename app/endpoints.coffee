@@ -52,6 +52,12 @@ module.exports.listSongs = (req, res, next) ->
         status: 'success'
         items: items
 
+insertItem = (item, reqOpts) ->
+  request.post reqOpts, (err, client, response) ->
+    resp = JSON.parse client.body
+    item.btc_pay_address = resp.addresses[0]
+    console.log item
+
 module.exports.putSongs = (req, res, next) ->
   db.collection 'jukeboxes', (err, collection) ->
     collection.findOne _id: new BSON.ObjectID(req.params.id), (err, jukebox) ->
@@ -63,15 +69,7 @@ module.exports.putSongs = (req, res, next) ->
             'content-type': 'application/x-www-form-urlencoded'
         for item in req.params.items
           item.jukebox_id = jukebox._id
-          request.post reqOpts, (err, client, response) ->
-            resp = JSON.parse client.body
-            item.btc_pay_address = resp.addresses[0]
-            console.log item
-            #collection.insert item, (err, result) ->
-            #  if err
-            #    console.log "Collection insert failed with message %s", JSON.stringify(result)
-            #  else
-            #    console.log "New song created on jukebox %s with result %s", req.params.id, JSON.stringify(result)
+          insertItem item, reqOpts
         res.send
           status: 'success'
 
