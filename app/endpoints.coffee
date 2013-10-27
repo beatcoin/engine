@@ -48,7 +48,7 @@ module.exports.play = (req, res, next) ->
 
 module.exports.listSongs = (req, res, next) ->
   db.collection 'songs', (err, collection) ->
-    collection.find().toArray (err, items) ->
+    collection.find({}, limit: 20).toArray (err, items) ->
       res.send
         status: 'success'
         items: items
