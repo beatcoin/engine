@@ -7,6 +7,8 @@ server.use restify.bodyParser()
 
 endpoints = require './endpoints.coffee'
 
+server.get '/jukebox/:id/queue', endpoints.getQueue
+
 server.get '/jukebox/:id/play', endpoints.play
 
 server.get '/jukebox/:id/songs', endpoints.listSongs

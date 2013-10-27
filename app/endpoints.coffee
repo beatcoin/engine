@@ -21,6 +21,16 @@ db.open (err, db) ->
 # We need to make HTTP requests
 request = require 'request'
 
+module.exports.getQueue = (req, res, next) ->
+  if not req.params.id
+    res.send 404, 'Does not exist'
+    return next()
+  db.collection 'queue', (err, collection) ->
+    collection.find({jukebox_id: new BSON.ObjectID(req.params.id)}).toArray (err, items) ->
+      res.send
+        status: 'success'
+        items: items
+
 module.exports.play = (req, res, next) ->
   console.log "play called for jukebox id %s", req.params.id
   db.collection 'queue', (err, collection) ->
