@@ -91,6 +91,8 @@ module.exports.notifeye = (req, res, next) ->
     collection.findOne(
       btc_pay_address: req.params.address
       , (err, item) ->
+        if not item
+          res.send 404, 'Does not exist'
         # Now we've got the item, push it into the queue
         item.queue = req.params
         delete item._id
