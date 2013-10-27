@@ -22,6 +22,7 @@ db.open (err, db) ->
 request = require 'request'
 
 module.exports.play = (req, res, next) ->
+  console.log "play called for jukebox id %s", req.params.id
   db.collection 'queue', (err, collection) ->
     collection.findOne
       jukebox_id: new BSON.ObjectID(req.params.id)
@@ -78,6 +79,8 @@ module.exports.putSongs = (req, res, next) ->
           status: 'success'
 
 module.exports.notifeye = (req, res, next) ->
+  console.log 'notifeye called'
+  console.log req.params
   if not req.params.address
     return res.send 400, 'Invalid address'
   db.collection 'songs', (err, collection) ->
