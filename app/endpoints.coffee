@@ -56,7 +56,11 @@ insertSong = (item, reqOpts, collection) ->
   request.post reqOpts, (err, client, response) ->
     resp = JSON.parse client.body
     item.btc_pay_address = resp.addresses[0]
-    collection.insert item
+    collection.insert item, (err, result) ->
+      if err
+        console.log "Error inserting for jukebox id %s with result %s", item.jukebox_id, JSON.stringify(result)
+      else
+        console.log "Successfully inserted song for jukebox id %s, result was %s", item.jukebox_id, JSON.stringify(result)
 
 module.exports.putSongs = (req, res, next) ->
   db.collection 'jukeboxes', (err, collection) ->
