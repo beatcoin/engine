@@ -64,6 +64,9 @@ insertSong = (item, reqOpts, collection) ->
         console.log "Successfully inserted song for jukebox id %s, result was %s", item.jukebox_id, JSON.stringify(result)
 
 module.exports.putSongs = (req, res, next) ->
+  res.send
+    status: 'success'
+  return next()
   db.collection 'jukeboxes', (err, collection) ->
     collection.findOne _id: new BSON.ObjectID(req.params.id), (err, jukebox) ->
       db.collection 'songs', (err, collection) ->
