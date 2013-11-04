@@ -21,6 +21,7 @@ db.open (err, db) ->
 # We need to make HTTP requests
 request = require 'request'
 
+# Get the songs in the current queue
 module.exports.getQueue = (req, res, next) ->
   if not req.params.id
     res.send 404, 'Does not exist'
@@ -31,6 +32,7 @@ module.exports.getQueue = (req, res, next) ->
         status: 'success'
         items: items
 
+# Play a song from the queue (queue pop, history push)
 module.exports.play = (req, res, next) ->
   console.log "play called for jukebox id %s", req.params.id
   db.collection 'queue', (err, collection) ->
@@ -56,6 +58,7 @@ module.exports.play = (req, res, next) ->
               status: 'success'
               items: [item]
 
+# Get a list of all the songs in the library
 module.exports.listSongs = (req, res, next) ->
   if not req.params.id
     res.send 404, 'Does not exist'
@@ -66,6 +69,7 @@ module.exports.listSongs = (req, res, next) ->
         status: 'success'
         items: items
 
+# Put a song into the library
 insertSong = (item, reqOpts, collection) ->
   request.post reqOpts, (err, client, response) ->
     if client.body
@@ -77,6 +81,7 @@ insertSong = (item, reqOpts, collection) ->
         else
           console.log "Successfully inserted song for jukebox id %s, result was %s", item.jukebox_id, JSON.stringify(result)
 
+# Insert many songs into the library
 module.exports.putSongs = (req, res, next) ->
   res.send
     status: 'success'
@@ -95,6 +100,7 @@ module.exports.putSongs = (req, res, next) ->
         res.send
           status: 'success'
 
+# Insert a payment into the engine
 module.exports.notifeye = (req, res, next) ->
   console.log 'notifeye called'
   console.log req.params
