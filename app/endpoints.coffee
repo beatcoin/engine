@@ -36,27 +36,28 @@ module.exports.getQueue = (req, res, next) ->
 module.exports.play = (req, res, next) ->
   console.log "play called for jukebox id %s", req.params.id
   db.collection 'queue', (err, collection) ->
-    collection.findOne
+    collection.find(
       jukebox_id: new BSON.ObjectID(req.params.id)
     ,
       sort:
-        'query.amount': -1
-        'query.time': 1
-    ,
-      (err, item) ->
-        if not item
+        'queue.amount': -1
+        'queue.time': 1
+      limit: 1
+    ).toArray (err, items) ->
+      if not items.length # Other tests fail here, not sure why
+        res.send
+          status: 'success'
+          items: []
+      else
+        console.log 'found items %s', JSON.stringify(items)
+        item = items[0]
+        console.log item
+        collection.remove _id: item._id, (err, removed) ->
+          console.log 'just removed'
+          console.log removed
           res.send
             status: 'success'
-            items: []
-        else
-          console.log 'find'
-          console.log item
-          collection.remove _id: item._id, (err, removed) ->
-            console.log 'just removed'
-            console.log removed
-            res.send
-              status: 'success'
-              items: [item]
+            items: [item]
 
 # Get a list of all the songs in the library
 module.exports.listSongs = (req, res, next) ->
