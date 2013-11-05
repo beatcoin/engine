@@ -1,6 +1,17 @@
 # Import all the useful stuff...
 s = require './stuff.coffee'
 
+# Get the songs in the current queue
+module.exports.getQueue = (req, res, next) ->
+  if not req.params.id
+    res.send 404, 'Does not exist'
+    return next()
+  db.collection 'queue', (err, collection) ->
+    collection.find({jukebox_id: new BSON.ObjectID(req.params.id)}).toArray (err, items) ->
+      res.send
+        status: 'success'
+        items: items
+
 # Play a song from the queue (queue pop, history push)
 module.exports.play = (req, res, next) ->
   console.log "play called for jukebox id %s", req.params.id
