@@ -1,26 +1,12 @@
-db = require('./mongo.coffee').db
-BSON = require('./mongo.coffee').BSON
-
-# We need to make HTTP requests
-request = require 'request'
-
-# Get the songs in the current queue
-module.exports.getQueue = (req, res, next) ->
-  if not req.params.id
-    res.send 404, 'Does not exist'
-    return next()
-  db.collection 'queue', (err, collection) ->
-    collection.find({jukebox_id: new BSON.ObjectID(req.params.id)}).toArray (err, items) ->
-      res.send
-        status: 'success'
-        items: items
+# Import all the useful stuff...
+s = require './stuff.coffee'
 
 # Play a song from the queue (queue pop, history push)
 module.exports.play = (req, res, next) ->
   console.log "play called for jukebox id %s", req.params.id
-  db.collection 'queue', (err, collection) ->
+  s.db.collection 'queue', (err, collection) ->
     collection.find(
-      jukebox_id: new BSON.ObjectID(req.params.id)
+      jukebox_id: new s.BSON.ObjectID(req.params.id)
     ,
       sort:
         'queue.amount': -1
@@ -58,9 +44,9 @@ module.exports.listSongs = (req, res, next) ->
   else
     offset = req.query.offset
   
-  db.collection 'songs', (err, collection) ->
+  s.db.collection 'songs', (err, collection) ->
     collection.find(
-      jukebox_id: new BSON.ObjectID(req.params.id)
+      jukebox_id: new s.BSON.ObjectID(req.params.id)
     ,
       limit: limit
       skip: offset
@@ -116,9 +102,9 @@ insertSong = (item, reqOpts, collection) ->
 module.exports.putSongs = (req, res, next) ->
   #res.send
   #  status: 'success'
-  db.collection 'jukeboxes', (err, collection) ->
-    collection.findOne _id: new BSON.ObjectID(req.params.id), (err, jukebox) ->
-      db.collection 'songs', (err, collection) ->
+  s.db.collection 'jukeboxes', (err, collection) ->
+    collection.findOne _id: new s.BSON.ObjectID(req.params.id), (err, jukebox) ->
+      s.db.collection 'songs', (err, collection) ->
         reqOpts =
           uri: 'http://eye.beatcoin.org/wallets/' + jukebox.btc_wallet_id + '/addresses'
           method: 'POST'
@@ -137,7 +123,7 @@ module.exports.notifeye = (req, res, next) ->
   console.log req.params
   if not req.params.address
     return res.send 400, 'Invalid address'
-  db.collection 'songs', (err, collection) ->
+  s.db.collection 'songs', (err, collection) ->
     collection.findOne(
       btc_pay_address: req.params.address
       , (err, item) ->
@@ -147,7 +133,7 @@ module.exports.notifeye = (req, res, next) ->
         # Now we've got the item, push it into the queue
         item.queue = req.params
         delete item._id
-        db.collection 'queue', (err, collection) ->
+        s.db.collection 'queue', (err, collection) ->
           collection.insert item
           res.send 200
     )
@@ -155,7 +141,7 @@ module.exports.notifeye = (req, res, next) ->
 # Create a new jukebox, called by the client on first contact
 module.exports.jukebox = (req, res, next) ->
   console.log 'Creating a new jukebox'
-  db.collection 'jukeboxes', (err, collection) ->
+  s.db.collection 'jukeboxes', (err, collection) ->
     jukebox =
       key: require('crypto').randomBytes(64).toString('hex')
       subdomain: req.params.subdomain
