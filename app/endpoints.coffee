@@ -7,7 +7,7 @@ module.exports.getQueue = (req, res, next) ->
     res.send 404, 'Does not exist'
     return next()
   s.db.collection 'queue', (err, collection) ->
-    collection.find({jukebox_id: new BSON.ObjectID(req.params.id)}).toArray (err, items) ->
+    collection.find({jukebox_id: new s.BSON.ObjectID(req.params.id)}).toArray (err, items) ->
       res.send
         status: 'success'
         items: items
