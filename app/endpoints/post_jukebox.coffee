@@ -3,7 +3,6 @@ s = require '../stuff.coffee'
 
 # Create a new jukebox, called by the client on first contact
 module.exports = (req, res, next) ->
-  console.log 'Creating a new jukebox'
   s.db.collection 'jukeboxes', (err, collection) ->
     jukebox =
       key: require('crypto').randomBytes(64).toString('hex')
