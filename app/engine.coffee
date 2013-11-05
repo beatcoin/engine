@@ -19,5 +19,10 @@ module.exports = () ->
   
   server.post '/jukebox', require './endpoints/post_jukebox.coffee'
   
+  server.get '/hello', (req, res, next) ->
+    res.send 200,
+      items:
+        text: "Hello"
+  
   server.listen 8080, ->
     console.log "%s listening at %s", server.name, server.url
