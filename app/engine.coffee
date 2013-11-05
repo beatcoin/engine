@@ -8,7 +8,7 @@ server.use restify.queryParser()
 
 endpoints = require './endpoints.coffee'
 
-server.get '/jukebox/:id/queue', endpoints.getQueue
+server.get '/jukebox/:id/queue', require './endpoints/get_jukebox_queue.coffee'
 
 server.get '/jukebox/:id/play', endpoints.play
 
