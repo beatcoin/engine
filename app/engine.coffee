@@ -6,8 +6,6 @@ server = restify.createServer()
 server.use restify.bodyParser()
 server.use restify.queryParser()
 
-endpoints = require './endpoints.coffee'
-
 server.get '/jukebox/:id/queue', require './endpoints/get_jukebox_queue.coffee'
 
 server.get '/jukebox/:id/play', require './endpoints/get_jukebox_play.coffee'
