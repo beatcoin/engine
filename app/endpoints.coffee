@@ -65,7 +65,11 @@ module.exports.listSongs = (req, res, next) ->
     res.send 404, 'Does not exist'
     return next()
   db.collection 'songs', (err, collection) ->
-    collection.find({jukebox_id: new BSON.ObjectID(req.params.id)}, limit: 20).toArray (err, items) ->
+    collection.find(
+      jukebox_id: new BSON.ObjectID(req.params.id)
+    ,
+      limit: 20
+    ).toArray (err, items) ->
       res.send
         status: 'success'
         items: items
