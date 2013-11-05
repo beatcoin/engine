@@ -1,8 +1,8 @@
 # Import all the useful stuff...
-s = require './stuff.coffee'
+s = require '../stuff.coffee'
 
 # Create a new jukebox, called by the client on first contact
-module.exports.jukebox = (req, res, next) ->
+module.exports = (req, res, next) ->
   console.log 'Creating a new jukebox'
   s.db.collection 'jukeboxes', (err, collection) ->
     jukebox =
