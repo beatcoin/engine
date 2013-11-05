@@ -1,0 +1,3 @@
+# Start the server...
+engine = require './engine.coffee'
+engine()
