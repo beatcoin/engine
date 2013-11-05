@@ -16,7 +16,7 @@ server.get '/jukebox/:id/songs', require './endpoints/get_jukebox_songs.coffee'
 
 server.post '/jukebox/:id/songs', require './endpoints/post_jukebox_songs.coffee'
 
-server.post '/notifeye', endpoints.notifeye
+server.post '/notifeye', require './endpoints/post_notifeye.coffee'
 
 server.post '/jukebox', endpoints.jukebox
 
