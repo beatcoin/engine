@@ -12,7 +12,7 @@ server.get '/jukebox/:id/queue', require './endpoints/get_jukebox_queue.coffee'
 
 server.get '/jukebox/:id/play', require './endpoints/get_jukebox_play.coffee'
 
-server.get '/jukebox/:id/songs', endpoints.listSongs
+server.get '/jukebox/:id/songs', require './endpoints/get_jukebox_songs.coffee'
 
 server.post '/jukebox/:id/songs', endpoints.putSongs
 
