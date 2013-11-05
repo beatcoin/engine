@@ -64,11 +64,23 @@ module.exports.listSongs = (req, res, next) ->
   if not req.params.id
     res.send 404, 'Does not exist'
     return next()
+  
+  # Set up the pagination params
+  if not req.query.limit
+    limit = 20
+  else
+    limit = req.query.limit
+  if not req.query.offset
+    offset = 0
+  else
+    offset = req.query.offset
+  
   db.collection 'songs', (err, collection) ->
     collection.find(
       jukebox_id: new BSON.ObjectID(req.params.id)
     ,
-      limit: 20
+      limit: limit
+      skip: offset
     ).toArray (err, items) ->
       res.send
         status: 'success'

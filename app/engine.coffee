@@ -4,6 +4,7 @@ restify = require "restify"
 server = restify.createServer()
 # Enable parsing of requests
 server.use restify.bodyParser()
+server.use restify.queryParser()
 
 endpoints = require './endpoints.coffee'
 
